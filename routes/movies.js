@@ -2,16 +2,14 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
 const {
-  getCards,
-  postCard,
-  deleteCard,
-  likeCard,
-  dislikeCard,
+  getMovies,
+  postMovie,
+  deleteMovie,
 } = require('../controllers/movies');
 
 // # возвращает все сохранённые текущим  пользователем фильмы
 // GET /movies
-router.get('/', getCards);
+router.get('/', getMovies);
 
 // # создаёт фильм с переданными в теле
 // # country, director, duration, year, description,
@@ -30,28 +28,15 @@ router.post('/', celebrate({
     movieId: Joi.string().required().min(2).max(30),
     nameRU: Joi.string().required().min(2).max(30),
     nameEN: Joi.string().required().min(2).max(30),
-
-
-    director: Joi.string().required().pattern(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/),
   }),
-}), postCard);
+}), postMovie);
 
+// # удаляет сохранённый фильм по id
+// DELETE /movies/_id
 router.delete('/:cardId', celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().length(24).hex(),
   }),
-}), deleteCard);
-
-router.put('/:cardId/likes', celebrate({
-  params: Joi.object().keys({
-    cardId: Joi.string().length(24).hex(),
-  }),
-}), likeCard);
-
-router.delete('/:cardId/likes', celebrate({
-  params: Joi.object().keys({
-    cardId: Joi.string().length(24).hex(),
-  }),
-}), dislikeCard);
+}), deleteMovie);
 
 module.exports = router;
