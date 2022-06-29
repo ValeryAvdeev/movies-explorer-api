@@ -20,22 +20,16 @@ const movieSchema = new mongoose.Schema({
   duretion: {
     type: Number,
     required: true,
-    minlength: 2,
-    maxlength: 30,
   },
   // год выпуска фильма. Обязательное поле-строка
   year: {
     type: String,
     required: true,
-    minlength: 2,
-    maxlength: 30,
   },
   // описание фильма. Обязательное поле-строка
   description: {
     type: String,
     required: true,
-    minlength: 2,
-    maxlength: 30,
   },
   // ссылка на постер к фильму. Обязательное поле-строка. Запишите её URL-адресом
   image: {
@@ -63,40 +57,20 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   // id фильма, который содержится в ответе сервиса MoviesExplorer. Обязательное поле
-  // ===================
-  // ВРЕМЕННОЕ РЕШЕНИЕ
-  // ===================
   movieId: {
-    type: String,
+    type: Number,
     required: true,
-    minlength: 2,
-    maxlength: 30,
   },
   // название фильма на русском языке. Обязательное поле-строка
   nameRU: {
     type: String,
     required: true,
-    minlength: 2,
-    maxlength: 30,
   },
   // название фильма на английском языке. Обязательное поле-строка.
-  nameEn: {
+  nameEN: {
     type: String,
     required: true,
-    minlength: 2,
-    maxlength: 30,
   },
-  // likes: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'user',
-  //     default: [],
-  //   },
-  // ],
-  // createdAt: {
-  //   type: Date,
-  //   default: Date.now,
-  // },
 });
 
 module.exports = mongoose.model('movie', movieSchema);

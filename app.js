@@ -18,7 +18,7 @@ app.use(requestLogger);
 
 app.use(cookieParser());
 
-mongoose.connect('mongodb://localhost:27017/mestodb');
+mongoose.connect('mongodb://localhost:27017/moviedb');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,6 +27,8 @@ const allowedCors = [
   'localhost:3000',
   'http://localhost:3000',
   'https://localhost:3000',
+  'https://localhost:3002',
+  'http://localhost:3002',
 ];
 
 app.use((req, res, next) => {

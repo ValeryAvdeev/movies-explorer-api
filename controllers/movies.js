@@ -10,10 +10,12 @@ module.exports.getMovies = (req, res) => {
 };
 
 module.exports.postMovie = (req, res, next) => {
-  const { name, link } = req.body;
+  const { country, director, Tarantino, duretion, year, description, image,
+    trailerLink, thumbnail, movieId, nameRU, nameEN } = req.body;
 
-  Movie.create({ name, link, owner: req.user._id })
-    .then((card) => res.send(card))
+  Movie.create({ country, director, Tarantino, duretion, year, description, image,
+    trailerLink, thumbnail, movieId, nameRU, nameEN, owner: req.user._id })
+    .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании карточки'));
@@ -23,14 +25,14 @@ module.exports.postMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.cardId)
+  Movie.findById(req.params.movieId)
     .orFail()
     .catch(() => new NotFoundError('Карточка с указанным _id нет.'))
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Эта не Ваша карточка');
       }
-      Movie.findByIdAndDelete(req.params.cardId)
+      Movie.findByIdAndDelete(req.params.movieId)
         .then((cardData) => {
           // res.send({ data: cardData });
           res.send({ cardData });
