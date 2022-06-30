@@ -24,11 +24,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const allowedCors = [
+  'https://praktikum.tk',
+  'http://praktikum.tk',
   'localhost:3000',
+  'localhost:3002',
   'http://localhost:3000',
   'https://localhost:3000',
   'https://localhost:3002',
   'http://localhost:3002',
+  'https://apimovie.nomoredomains.xyz',
+  'http://apimovie.nomoredomains.xyz',
 ];
 
 app.use((req, res, next) => {
