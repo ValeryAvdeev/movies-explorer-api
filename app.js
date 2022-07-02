@@ -1,28 +1,24 @@
+require('dotenv').config();
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { celebrate, Joi, errors } = require('celebrate');
-const { login, registrationUser } = require('./controllers/users');
-const auth = require('./middlewares/auth');
+const helmet = require('helmet');
+const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { NotFoundError } = require('./error/NotFoundError');
 const errorHandler = require('./middlewares/error');
-require('dotenv').config();
 
-const { PORT = 3002 } = process.env;
-
+const { PORT = 3005, dateBase = 'mongodb://localhost:27017/moviesdb' } = process.env;
 const app = express();
 
+mongoose.connect(dateBase);
+
 app.use(requestLogger);
-
-app.use(cookieParser());
-
-mongoose.connect('mongodb://localhost:27017/moviedb');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(helmet());
 const allowedCors = [
   'https://praktikum.tk',
   'http://praktikum.tk',
@@ -64,24 +60,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
-
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
-  }),
-}), registrationUser);
-
-app.use(auth);
-app.use('/users', require('./routes/users'));
-app.use('/movies', require('./routes/movies'));
+app.use(require('./routes/index'));
 
 app.use((req, res, next) => next(new NotFoundError('страница не найдена')));
 

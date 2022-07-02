@@ -6,20 +6,19 @@ const { ForbiddenError } = require('../error/ForbiddenError');
 module.exports.getMovies = (req, res) => {
   Movie.find({})
     .then((cards) => res.send(cards))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка при получении карточек' }));
+    .catch(() => res.status(500).send({ message: 'Произошла ошибка при получении фильма' }));
 };
 
 module.exports.postMovie = (req, res, next) => {
   const {
-    country, director, Tarantino, duretion, year, description, image,
+    country, director, duration, year, description, image,
     trailerLink, thumbnail, movieId, nameRU, nameEN,
   } = req.body;
 
   Movie.create({
     country,
     director,
-    Tarantino,
-    duretion,
+    duration,
     year,
     description,
     image,
@@ -33,7 +32,7 @@ module.exports.postMovie = (req, res, next) => {
     .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании карточки'));
+        next(new BadRequestError('Переданы некорректные данные при создании фильма'));
       }
       next(err);
     });
@@ -41,18 +40,16 @@ module.exports.postMovie = (req, res, next) => {
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
-    .orFail()
-    .catch(() => new NotFoundError('Карточка с указанным _id нет.'))
-    .then((card) => {
-      if (card.owner.toString() !== req.user._id) {
+    .orFail(new NotFoundError(`Фильма с указанным ${req.params.movieId} нет.`))
+    .then((movie) => {
+      if (movie.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Эта не Ваша карточка');
       }
       Movie.findByIdAndDelete(req.params.movieId)
-        .then((cardData) => {
-          // res.send({ data: cardData });
-          res.send({ cardData });
+        .then((movieData) => {
+          res.send({ movieData });
         })
         .catch(next);
     })
-    .catch(next);
+    .catch((e) => next(e));
 };

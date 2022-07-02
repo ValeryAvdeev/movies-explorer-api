@@ -35,6 +35,7 @@ module.exports.registrationUser = async (req, res, next) => {
   const {
     email, password, name,
   } = req.body;
+
   try {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
@@ -63,9 +64,6 @@ module.exports.getMe = async (req, res, next) => {
       res.send(userMe);
     }
   } catch (e) {
-    if (e.name === 'CastError') {
-      next(new BadRequestError('Некорректный id пользователя'));
-    }
     next(e);
   }
 };
@@ -83,7 +81,8 @@ module.exports.createMe = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные профиля.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };

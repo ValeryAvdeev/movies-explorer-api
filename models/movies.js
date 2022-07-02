@@ -17,7 +17,7 @@ const movieSchema = new mongoose.Schema({
     maxlength: 30,
   },
   // длительность фильма. Обязательное поле-число
-  duretion: {
+  duration: {
     type: Number,
     required: true,
   },

@@ -12,13 +12,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
+    minlength: 4,
   },
   name: {
     type: String,
-    default: 'Вася',
     minlength: 2,
-    required: true,
     maxlength: 30,
+    required: true,
   },
 });
 
