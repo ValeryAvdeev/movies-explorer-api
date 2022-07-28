@@ -26,7 +26,7 @@ module.exports.moviePostValidation = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required().min(2).max(30),
     director: Joi.string().required().min(2).max(30),
-    duration: Joi.number().required(),
+    duretion: Joi.number().required(),
     year: Joi.number().required().min(1888).max(2022),
     description: Joi.string().required(),
     image: Joi.string().required().pattern(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/),
