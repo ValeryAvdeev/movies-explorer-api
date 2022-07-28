@@ -12,7 +12,7 @@ const {
 router.get('/', getMovies);
 
 // # создаёт фильм с переданными в теле
-// # country, director, duretion, year, description,
+// # country, director, duration, year, description,
 // image, trailer, nameRU, nameEN и thumbnail, movieId
 // POST /movies
 router.post('/', moviePostValidation, postMovie);
