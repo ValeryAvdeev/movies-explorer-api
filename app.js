@@ -8,7 +8,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { NotFoundError } = require('./error/NotFoundError');
 const errorHandler = require('./middlewares/error');
 
-const { PORT = 3005, dateBase = 'mongodb://localhost:27017/moviesdb' } = process.env;
+const { PORT = 3002, dateBase = 'mongodb://localhost:27017/moviesdb' } = process.env;
 const app = express();
 
 mongoose.connect(dateBase);
