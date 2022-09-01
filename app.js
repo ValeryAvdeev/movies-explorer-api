@@ -30,6 +30,8 @@ const allowedCors = [
   'http://localhost:3002',
   'https://apimovie.nomoredomains.xyz',
   'http://apimovie.nomoredomains.xyz',
+  'https://firstmovie.nomoredomains.sbs',
+  'http://firstmovie.nomoredomains.sbs',
 ];
 
 app.use((req, res, next) => {
